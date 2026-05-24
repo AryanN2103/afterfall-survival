@@ -1,25 +1,18 @@
-# ==========================================
 # AFTERFALL : SURVIVAL
-# Beginner/Intermediate Python Project
-# ==========================================
 
 import random
 import json
 import time
 
-# ==========================================
-# MULTI-DIMENSIONAL LIST (ADVANCED CONCEPT)
-# ==========================================
 
+# Stores map locations using a multi-dimensional list
 world_map = [
     ["Supermarket", "Police Station", "Hospital"],
     ["Apartment Building", "Gas Station", "School"]
 ]
 
-# ==========================================
-# ZOMBIE CLASS (ADVANCED CONCEPT)
-# ==========================================
 
+# Zombie class used during combat
 class Zombie:
 
     def __init__(self, health, damage):
@@ -27,10 +20,8 @@ class Zombie:
         self.health = health
         self.damage = damage
 
-# ==========================================
-# TYPEWRITER EFFECT
-# ==========================================
 
+# Creates typewriter text effect
 def type_text(text):
 
     for letter in text:
@@ -41,10 +32,8 @@ def type_text(text):
 
     print()
 
-# ==========================================
-# PLAYER DATA
-# ==========================================
 
+# Stores all player information
 player = {
 
     "health": 100,
@@ -68,10 +57,8 @@ player = {
 
 alive = True
 
-# ==========================================
-# LOOT
-# ==========================================
 
+# Possible loot items
 normal_loot = [
 
     "Food",
@@ -82,10 +69,8 @@ normal_loot = [
     "Nothing"
 ]
 
-# ==========================================
-# TIME SYSTEM
-# ==========================================
 
+# Advances in-game time
 def advance_time(hours):
 
     player["time"] += hours
@@ -102,10 +87,8 @@ def advance_time(hours):
 
         type_text("\nNight has fallen...")
 
-# ==========================================
-# STATUS
-# ==========================================
 
+# Displays player status
 def show_status():
 
     if player["time"] < 12:
@@ -138,10 +121,8 @@ def show_status():
 
     print("=" * 50)
 
-# ==========================================
-# INVENTORY
-# ==========================================
 
+# Shows inventory items
 def show_inventory():
 
     print("\n========== INVENTORY ==========")
@@ -160,10 +141,8 @@ def show_inventory():
 
     input("\nPress Enter to continue...")
 
-# ==========================================
-# SAVE GAME
-# ==========================================
 
+# Saves game data into JSON file
 def save_game():
 
     with open("savegame.json", "w") as file:
@@ -172,10 +151,8 @@ def save_game():
 
     type_text("\nGame saved successfully.")
 
-# ==========================================
-# LOAD GAME
-# ==========================================
 
+# Loads saved game
 def load_game():
 
     global player
@@ -192,10 +169,8 @@ def load_game():
 
         type_text("\nNo save file found.")
 
-# ==========================================
-# REST
-# ==========================================
 
+# Rest system
 def rest():
 
     type_text("\nYou rest for the night...")
@@ -217,15 +192,13 @@ def rest():
 
     type_text("\nYou wake up the next morning.")
 
-# ==========================================
-# STORY EVENTS
-# ==========================================
 
+# Random story events
 def story_event():
 
     event = random.randint(1, 4)
 
-    # SURVIVOR
+    # Survivor event
     if event == 1:
 
         type_text("\nYou find an injured survivor.")
@@ -268,7 +241,7 @@ def story_event():
                 f"\nThe survivor fought back. You lost {damage} health."
             )
 
-    # HOUSE
+    # House event
     elif event == 2:
 
         type_text("\nYou discover an abandoned house.")
@@ -284,7 +257,7 @@ def story_event():
 
         player["inventory"].append(found)
 
-    # MILITARY CRATE
+    # Military crate event
     elif event == 3:
 
         type_text("\nYou found a military supply crate.")
@@ -309,7 +282,7 @@ def story_event():
 
             player["inventory"].append(reward)
 
-    # TRAP
+    # Trap event
     else:
 
         type_text("\nYou triggered a trap.")
@@ -320,10 +293,8 @@ def story_event():
 
         type_text(f"You lost {damage} health.")
 
-# ==========================================
-# ZOMBIE LOOT
-# ==========================================
 
+# Gives loot after zombie fights
 def zombie_loot():
 
     loot = random.choice(normal_loot)
@@ -350,13 +321,10 @@ def zombie_loot():
 
             player["inventory"].append(loot)
 
-# ==========================================
-# COMBAT
-# ==========================================
 
+# Combat system
 def combat():
 
-    # NIGHT ZOMBIES STRONGER
     if player["time"] >= 18:
 
         zombie = Zombie(80, 25)
@@ -383,15 +351,11 @@ def combat():
 
         choice = input("Choose: ")
 
-        # ==================================
-        # RAISE (ADVANCED CONCEPT)
-        # ==================================
-
         if choice not in ["1", "2", "3", "4"]:
 
             raise ValueError("Invalid combat choice.")
 
-        # PISTOL
+        # Pistol attack
         if choice == "1":
 
             if player["ammo"] > 0:
@@ -410,7 +374,7 @@ def combat():
 
                 type_text("\nNo pistol ammo left!")
 
-        # SHOTGUN
+        # Shotgun attack
         elif choice == "2":
 
             if player["shotgun_ammo"] > 0:
@@ -429,7 +393,7 @@ def combat():
 
                 type_text("\nNo shotgun shells left!")
 
-        # KNIFE
+        # Knife attack
         elif choice == "3":
 
             damage = random.randint(10, 25)
@@ -440,7 +404,7 @@ def combat():
                 f"\nYou stabbed the zombie for {damage} damage."
             )
 
-        # RUN
+        # Escape attempt
         elif choice == "4":
 
             escape = random.randint(1, 2)
@@ -455,7 +419,7 @@ def combat():
 
                 type_text("\nYou failed to escape!")
 
-        # ZOMBIE ATTACK
+        # Zombie attacks player
         if zombie.health > 0:
 
             player["health"] -= zombie.damage
@@ -472,10 +436,8 @@ def combat():
 
         zombie_loot()
 
-# ==========================================
-# EXPLORE
-# ==========================================
 
+# Exploration system
 def explore():
 
     print("\n========== MAP ==========")
@@ -526,17 +488,17 @@ def explore():
 
     event = random.randint(1, 100)
 
-    # STORY EVENT
+    # Story event
     if event <= 30:
 
         story_event()
 
-    # ZOMBIE EVENT
+    # Zombie event
     elif event <= 70:
 
         combat()
 
-    # LOOT EVENT
+    # Loot event
     elif event <= 90:
 
         loot = random.choice(normal_loot)
@@ -555,15 +517,13 @@ def explore():
 
             player["inventory"].append(loot)
 
-    # QUIET EVENT
+    # Quiet event
     else:
 
         type_text("\nThe area was quiet.")
 
-# ==========================================
-# USE ITEM
-# ==========================================
 
+# Allows player to use items
 def use_item():
 
     usable_items = []
@@ -605,7 +565,7 @@ def use_item():
 
         item = usable_items[choice - 1]
 
-        # BANDAGE
+        # Bandage
         if item == "Bandage":
 
             player["health"] += 20
@@ -616,7 +576,7 @@ def use_item():
 
             type_text("\nYou used a Bandage.")
 
-        # FOOD
+        # Food
         elif item == "Food":
 
             player["hunger"] -= 20
@@ -627,7 +587,7 @@ def use_item():
 
             type_text("\nYou ate some food.")
 
-        # WATER
+        # Water bottle
         elif item == "Water Bottle":
 
             player["stamina"] += 15
@@ -638,7 +598,7 @@ def use_item():
 
             type_text("\nYou drank water.")
 
-        # MEDKIT
+        # Medkit
         elif item == "Medkit":
 
             player["health"] = 100
@@ -655,10 +615,8 @@ def use_item():
 
         type_text("\nInvalid input.")
 
-# ==========================================
-# CHECK STATUS
-# ==========================================
 
+# Checks if player is alive
 def check_player_status():
 
     global alive
@@ -675,10 +633,8 @@ def check_player_status():
 
         alive = False
 
-# ==========================================
-# GAME START
-# ==========================================
 
+# Game title screen
 print("=" * 50)
 
 print("      WELCOME TO AFTERFALL")
@@ -694,16 +650,16 @@ INSTRUCTIONS:
 - Zombies are stronger at night
 """)
 
+
+# Load save file option
 load = input("\nLoad save? (y/n): ")
 
 if load.lower() == "y":
 
     load_game()
 
-# ==========================================
-# MAIN GAME LOOP
-# ==========================================
 
+# Main game loop
 while alive:
 
     check_player_status()
@@ -765,10 +721,8 @@ while alive:
 
         type_text("\nInvalid choice.")
 
-# ==========================================
-# GAME OVER
-# ==========================================
 
+# Final game over screen
 print("\n" + "=" * 50)
 
 print("GAME OVER")
